@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import sqlite3
 
-# Função para formatar e extrair a data em formato 'dd/mm'
 def formatar_data(data_str):
     try:
         if 'a' in data_str and "às" not in data_str:
@@ -21,18 +20,17 @@ def formatar_data(data_str):
         return "SEM DATA"
 
 def extrair_horario(data_str):
-    if not data_str:  # Verifica se a string é vazia ou None
+    if not data_str: 
         return "SEM HORÁRIO"
     
-    if "às" in data_str:  # Verifica se "às" está presente na string
-        partes = data_str.split("às", 1)  # Divide apenas na primeira ocorrência de "às"
-        if len(partes) > 1:  # Verifica se há uma segunda parte após "às"
-            return partes[1].strip()  # Remove espaços extras e retorna o horário
-    
-    return "SEM HORÁRIO"  # Caso não contenha "às"
+    if "às" in data_str:  
+        partes = data_str.split("às", 1)  
+        if len(partes) > 1:  
+            return partes[1].strip()  
+            
+    return "SEM HORÁRIO"  
     
 
-# Função para determinar o tipo de evento com base no título
 def determinar_tipo(titulo):
     titulo = titulo.lower()
     if "teatro" in titulo:
@@ -44,7 +42,6 @@ def determinar_tipo(titulo):
     else:
         return "Teatro/Outro"
 
-# Função para preencher com formato padrão quando não houver data ou horário
 def preencher_com_padrao(data, horario):
     if data == "SEM DATA":
         data = "25/12 a 31/12"
@@ -52,11 +49,10 @@ def preencher_com_padrao(data, horario):
         horario = "00:00"
     return data, horario
 
-# Conectar ao banco de dados SQLite
+
 conn = sqlite3.connect('banco_de_dados_sympla.db')
 cursor = conn.cursor()
 
-# Função para inserir um evento
 def inserir_evento(nome, tipo):
     cursor.execute('''
     INSERT INTO eventos (nome, tipo) 
@@ -81,7 +77,7 @@ def inserir_metadado(id_evento, metadado):
     ''', (id_evento, metadado))
     conn.commit()
 
-# Definir a URL e headers
+
 url = 'https://www.sympla.com.br/eventos'
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
 
