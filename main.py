@@ -20,15 +20,17 @@ def formatar_data(data_str):
     except Exception as e:
         return "SEM DATA"
 
-# Função para extrair o horário (caso esteja no formato "às horário")
 def extrair_horario(data_str):
-    if "às" in data_str:
-        try:
-            horario = data_str.split("às")[1].strip()
-            return horario
-        except Exception as e:
-            return "SEM HORÁRIO"
-    return "SEM HORÁRIO"
+    if not data_str:  # Verifica se a string é vazia ou None
+        return "SEM HORÁRIO"
+    
+    if "às" in data_str:  # Verifica se "às" está presente na string
+        partes = data_str.split("às", 1)  # Divide apenas na primeira ocorrência de "às"
+        if len(partes) > 1:  # Verifica se há uma segunda parte após "às"
+            return partes[1].strip()  # Remove espaços extras e retorna o horário
+    
+    return "SEM HORÁRIO"  # Caso não contenha "às"
+    
 
 # Função para determinar o tipo de evento com base no título
 def determinar_tipo(titulo):
