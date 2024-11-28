@@ -136,4 +136,4 @@ for evento in eventos:
 # Fechar a conexão
 conn.close()
 
-print("Dados extraídos e inseridos com sucesso!")
+print("Dados extraídos e inseridos com sucesso! :3")
